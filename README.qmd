@@ -1,0 +1,41 @@
+---
+title: README
+
+author: 
+  - name: John Little
+    affiliations:
+      - name: Center for Data & Visualization Sciences
+        department: Duke University Libraries    
+date: "`r Sys.Date()`"
+
+format: gfm
+output-file:  README
+output-ext: md
+
+license: CC BY 4.0
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### case_study_quarto_default_tier_protocol_applied
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+Making the TIER Protcol work with Posit (née RStudio) IDE & Quarto requires using the project type: `default`
+
+## Run Analysis
+
+-   all analysis scripts are in the `scripts` subdirectory
+
+-   In the RStudio IDE \> Build \> Render Project
+
+-   Render README.qmd file separately.

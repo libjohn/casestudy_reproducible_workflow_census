@@ -1,0 +1,25 @@
+project:
+  type: website
+
+website:
+  title: "Reproducible workflow: casestudy"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: scripts/02_notes.qmd
+        text: Page 2
+      - href: documentation/types_of_documentation.qmd
+        text: Documentation
+      - documentation/about.qmd        
+        
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    df-print: paged
+
+editor: visual
+

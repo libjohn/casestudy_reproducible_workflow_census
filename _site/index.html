@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.179">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="John Little">
+<meta name="author" content="Sophia Lafferty-Hess">
+<meta name="dcterms.date" content="2022-12-06">
+
+<title>Reproducible workflow: casestudy - Making a reproducible project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Reproducible workflow: casestudy</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./scripts/02_notes.html">Page 2</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./documentation/types_of_documentation.html">Documentation</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./documentation/about.html">About</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#make-a-quarto-project" id="toc-make-a-quarto-project" class="nav-link active" data-scroll-target="#make-a-quarto-project">Make a Quarto project</a></li>
+  <li><a href="#load-library-packages" id="toc-load-library-packages" class="nav-link" data-scroll-target="#load-library-packages">Load library packages</a></li>
+  <li><a href="#gather-data" id="toc-gather-data" class="nav-link" data-scroll-target="#gather-data">Gather data</a></li>
+  <li><a href="#clean-normalize-wrangle" id="toc-clean-normalize-wrangle" class="nav-link" data-scroll-target="#clean-normalize-wrangle">Clean / Normalize / Wrangle</a>
+  <ul class="collapse">
+  <li><a href="#save-cleaned-data" id="toc-save-cleaned-data" class="nav-link" data-scroll-target="#save-cleaned-data">Save cleaned data</a></li>
+  </ul></li>
+  <li><a href="#analysis-and-visualization" id="toc-analysis-and-visualization" class="nav-link" data-scroll-target="#analysis-and-visualization">Analysis and visualization</a>
+  <ul class="collapse">
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">visualization</a></li>
+  <li><a href="#map" id="toc-map" class="nav-link" data-scroll-target="#map">map</a></li>
+  </ul></li>
+  <li><a href="#generate-independent-outputs" id="toc-generate-independent-outputs" class="nav-link" data-scroll-target="#generate-independent-outputs">Generate independent outputs</a></li>
+  <li><a href="#fin" id="toc-fin" class="nav-link" data-scroll-target="#fin">Fin</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Making a reproducible project</h1>
+<p class="subtitle lead">Chapter 6 case study</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    John Little 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Duke University
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Sophia Lafferty-Hess 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Duke University
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 6, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="make-a-quarto-project" class="level2">
+<h2 class="anchored" data-anchor-id="make-a-quarto-project">Make a Quarto project</h2>
+<p>This Quarto project is also a git repo with {renv} dependency management. i.e.&nbsp;<strong><em>reproducibility!</em></strong></p>
+<p>You can and, generally, should set up your <a href="https://quarto.org/docs/projects/quarto-projects.html">Posit/Quart project</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> as a <em>git</em> repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled and <a href="https://rstudio.github.io/renv/articles/renv.html">renv</a>-enabled <a href="https://quarto.org/docs/projects/quarto-projects.html#creating-projects">Quarto Project</a>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>We will use Posit/RStudio’s native ability to orchestrate git and GitHub. You should create a free GitHub account and configure your RStudio with your GitHub Personal Access Token.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+</section>
+<section id="load-library-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-library-packages">Load library packages</h2>
+<p>As a general rule for our project we will load eight Tidyverse packages by invoking the following command: <code>library(tidyverse)</code>.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>This project will import census data in the second code-chunk. The <a href="https://www.census.gov/programs-surveys/acs/">Census ACS data</a> were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># library(renv)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="gather-data" class="level2">
+<h2 class="anchored" data-anchor-id="gather-data">Gather data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nc_pop <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">read_sf</span>(<span class="fu">here</span>(<span class="st">"data/raw/ACS_nc-county_shapefile.shp"</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nc_pop </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[3],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["geometry"],"name":[6],"type":["s_MULTIP"],"align":["right"]}],"data":[{"1":"37039","2":"Cherokee County, North Carolina","3":"B01003_001","4":"28413","5":"NA","6":"<s_MULTIP>"},{"1":"37089","2":"Henderson County, North Carolina","3":"B01003_001","4":"116298","5":"NA","6":"<s_MULTIP>"},{"1":"37171","2":"Surry County, North Carolina","3":"B01003_001","4":"71904","5":"NA","6":"<s_MULTIP>"},{"1":"37131","2":"Northampton County, North Carolina","3":"B01003_001","4":"19672","5":"NA","6":"<s_MULTIP>"},{"1":"37177","2":"Tyrrell County, North Carolina","3":"B01003_001","4":"3978","5":"NA","6":"<s_MULTIP>"},{"1":"37043","2":"Clay County, North Carolina","3":"B01003_001","4":"11150","5":"NA","6":"<s_MULTIP>"},{"1":"37075","2":"Graham County, North Carolina","3":"B01003_001","4":"8501","5":"NA","6":"<s_MULTIP>"},{"1":"37031","2":"Carteret County, North Carolina","3":"B01003_001","4":"69301","5":"NA","6":"<s_MULTIP>"},{"1":"37007","2":"Anson County, North Carolina","3":"B01003_001","4":"24430","5":"NA","6":"<s_MULTIP>"},{"1":"37183","2":"Wake County, North Carolina","3":"B01003_001","4":"1091662","5":"48","6":"<s_MULTIP>"},{"1":"37083","2":"Halifax County, North Carolina","3":"B01003_001","4":"50678","5":"NA","6":"<s_MULTIP>"},{"1":"37125","2":"Moore County, North Carolina","3":"B01003_001","4":"99263","5":"NA","6":"<s_MULTIP>"},{"1":"37065","2":"Edgecombe County, North Carolina","3":"B01003_001","4":"52069","5":"NA","6":"<s_MULTIP>"},{"1":"37107","2":"Lenoir County, North Carolina","3":"B01003_001","4":"56350","5":"NA","6":"<s_MULTIP>"},{"1":"37193","2":"Wilkes County, North Carolina","3":"B01003_001","4":"68341","5":"48","6":"<s_MULTIP>"},{"1":"37069","2":"Franklin County, North Carolina","3":"B01003_001","4":"68027","5":"NA","6":"<s_MULTIP>"},{"1":"37117","2":"Martin County, North Carolina","3":"B01003_001","4":"22644","5":"NA","6":"<s_MULTIP>"},{"1":"37137","2":"Pamlico County, North Carolina","3":"B01003_001","4":"12673","5":"NA","6":"<s_MULTIP>"},{"1":"37149","2":"Polk County, North Carolina","3":"B01003_001","4":"20682","5":"NA","6":"<s_MULTIP>"},{"1":"37175","2":"Transylvania County, North Carolina","3":"B01003_001","4":"34039","5":"NA","6":"<s_MULTIP>"},{"1":"37143","2":"Perquimans County, North Carolina","3":"B01003_001","4":"13513","5":"NA","6":"<s_MULTIP>"},{"1":"37047","2":"Columbus County, North Carolina","3":"B01003_001","4":"55659","5":"NA","6":"<s_MULTIP>"},{"1":"37161","2":"Rutherford County, North Carolina","3":"B01003_001","4":"66741","5":"NA","6":"<s_MULTIP>"},{"1":"37155","2":"Robeson County, North Carolina","3":"B01003_001","4":"131656","5":"NA","6":"<s_MULTIP>"},{"1":"37133","2":"Onslow County, North Carolina","3":"B01003_001","4":"198377","5":"NA","6":"<s_MULTIP>"},{"1":"37113","2":"Macon County, North Carolina","3":"B01003_001","4":"35172","5":"NA","6":"<s_MULTIP>"},{"1":"37091","2":"Hertford County, North Carolina","3":"B01003_001","4":"23752","5":"NA","6":"<s_MULTIP>"},{"1":"37127","2":"Nash County, North Carolina","3":"B01003_001","4":"94287","5":"NA","6":"<s_MULTIP>"},{"1":"37101","2":"Johnston County, North Carolina","3":"B01003_001","4":"203308","5":"NA","6":"<s_MULTIP>"},{"1":"37111","2":"McDowell County, North Carolina","3":"B01003_001","4":"45402","5":"NA","6":"<s_MULTIP>"},{"1":"37021","2":"Buncombe County, North Carolina","3":"B01003_001","4":"259576","5":"NA","6":"<s_MULTIP>"},{"1":"37153","2":"Richmond County, North Carolina","3":"B01003_001","4":"44759","5":"NA","6":"<s_MULTIP>"},{"1":"37027","2":"Caldwell County, North Carolina","3":"B01003_001","4":"82056","5":"NA","6":"<s_MULTIP>"},{"1":"37067","2":"Forsyth County, North Carolina","3":"B01003_001","4":"378499","5":"NA","6":"<s_MULTIP>"},{"1":"37093","2":"Hoke County, North Carolina","3":"B01003_001","4":"54590","5":"NA","6":"<s_MULTIP>"},{"1":"37085","2":"Harnett County, North Carolina","3":"B01003_001","4":"134328","5":"48","6":"<s_MULTIP>"},{"1":"37087","2":"Haywood County, North Carolina","3":"B01003_001","4":"61862","5":"NA","6":"<s_MULTIP>"},{"1":"37123","2":"Montgomery County, North Carolina","3":"B01003_001","4":"27223","5":"NA","6":"<s_MULTIP>"},{"1":"37103","2":"Jones County, North Carolina","3":"B01003_001","4":"9453","5":"NA","6":"<s_MULTIP>"},{"1":"37167","2":"Stanly County, North Carolina","3":"B01003_001","4":"62050","5":"NA","6":"<s_MULTIP>"},{"1":"37079","2":"Greene County, North Carolina","3":"B01003_001","4":"20987","5":"NA","6":"<s_MULTIP>"},{"1":"37017","2":"Bladen County, North Carolina","3":"B01003_001","4":"33209","5":"NA","6":"<s_MULTIP>"},{"1":"37013","2":"Beaufort County, North Carolina","3":"B01003_001","4":"47160","5":"NA","6":"<s_MULTIP>"},{"1":"37053","2":"Currituck County, North Carolina","3":"B01003_001","4":"27210","5":"NA","6":"<s_MULTIP>"},{"1":"37041","2":"Chowan County, North Carolina","3":"B01003_001","4":"13995","5":"NA","6":"<s_MULTIP>"},{"1":"37019","2":"Brunswick County, North Carolina","3":"B01003_001","4":"137303","5":"NA","6":"<s_MULTIP>"},{"1":"37009","2":"Ashe County, North Carolina","3":"B01003_001","4":"27009","5":"48","6":"<s_MULTIP>"},{"1":"37141","2":"Pender County, North Carolina","3":"B01003_001","4":"61891","5":"NA","6":"<s_MULTIP>"},{"1":"37051","2":"Cumberland County, North Carolina","3":"B01003_001","4":"334562","5":"NA","6":"<s_MULTIP>"},{"1":"37163","2":"Sampson County, North Carolina","3":"B01003_001","4":"63284","5":"NA","6":"<s_MULTIP>"},{"1":"37023","2":"Burke County, North Carolina","3":"B01003_001","4":"90148","5":"NA","6":"<s_MULTIP>"},{"1":"37035","2":"Catawba County, North Carolina","3":"B01003_001","4":"158507","5":"NA","6":"<s_MULTIP>"},{"1":"37037","2":"Chatham County, North Carolina","3":"B01003_001","4":"72853","5":"NA","6":"<s_MULTIP>"},{"1":"37099","2":"Jackson County, North Carolina","3":"B01003_001","4":"43435","5":"NA","6":"<s_MULTIP>"},{"1":"37055","2":"Dare County, North Carolina","3":"B01003_001","4":"36698","5":"NA","6":"<s_MULTIP>"},{"1":"37179","2":"Union County, North Carolina","3":"B01003_001","4":"235767","5":"NA","6":"<s_MULTIP>"},{"1":"37095","2":"Hyde County, North Carolina","3":"B01003_001","4":"5089","5":"NA","6":"<s_MULTIP>"},{"1":"37029","2":"Camden County, North Carolina","3":"B01003_001","4":"10654","5":"NA","6":"<s_MULTIP>"},{"1":"37199","2":"Yancey County, North Carolina","3":"B01003_001","4":"17870","5":"NA","6":"<s_MULTIP>"},{"1":"37165","2":"Scotland County, North Carolina","3":"B01003_001","4":"34921","5":"NA","6":"<s_MULTIP>"},{"1":"37139","2":"Pasquotank County, North Carolina","3":"B01003_001","4":"39775","5":"NA","6":"<s_MULTIP>"},{"1":"37061","2":"Duplin County, North Carolina","3":"B01003_001","4":"58965","5":"NA","6":"<s_MULTIP>"},{"1":"37173","2":"Swain County, North Carolina","3":"B01003_001","4":"14241","5":"NA","6":"<s_MULTIP>"},{"1":"37129","2":"New Hanover County, North Carolina","3":"B01003_001","4":"231448","5":"NA","6":"<s_MULTIP>"},{"1":"37115","2":"Madison County, North Carolina","3":"B01003_001","4":"21608","5":"NA","6":"<s_MULTIP>"},{"1":"37159","2":"Rowan County, North Carolina","3":"B01003_001","4":"140978","5":"NA","6":"<s_MULTIP>"},{"1":"37049","2":"Craven County, North Carolina","3":"B01003_001","4":"102290","5":"NA","6":"<s_MULTIP>"},{"1":"37119","2":"Mecklenburg County, North Carolina","3":"B01003_001","4":"1095170","5":"NA","6":"<s_MULTIP>"},{"1":"37071","2":"Gaston County, North Carolina","3":"B01003_001","4":"222119","5":"NA","6":"<s_MULTIP>"},{"1":"37005","2":"Alleghany County, North Carolina","3":"B01003_001","4":"11085","5":"NA","6":"<s_MULTIP>"},{"1":"37169","2":"Stokes County, North Carolina","3":"B01003_001","4":"45688","5":"NA","6":"<s_MULTIP>"},{"1":"37033","2":"Caswell County, North Carolina","3":"B01003_001","4":"22619","5":"NA","6":"<s_MULTIP>"},{"1":"37003","2":"Alexander County, North Carolina","3":"B01003_001","4":"37271","5":"NA","6":"<s_MULTIP>"},{"1":"37121","2":"Mitchell County, North Carolina","3":"B01003_001","4":"14959","5":"NA","6":"<s_MULTIP>"},{"1":"37077","2":"Granville County, North Carolina","3":"B01003_001","4":"59823","5":"NA","6":"<s_MULTIP>"},{"1":"37185","2":"Warren County, North Carolina","3":"B01003_001","4":"19746","5":"NA","6":"<s_MULTIP>"},{"1":"37045","2":"Cleveland County, North Carolina","3":"B01003_001","4":"97765","5":"NA","6":"<s_MULTIP>"},{"1":"37059","2":"Davie County, North Carolina","3":"B01003_001","4":"42543","5":"NA","6":"<s_MULTIP>"},{"1":"37147","2":"Pitt County, North Carolina","3":"B01003_001","4":"179961","5":"NA","6":"<s_MULTIP>"},{"1":"37195","2":"Wilson County, North Carolina","3":"B01003_001","4":"81579","5":"NA","6":"<s_MULTIP>"},{"1":"37057","2":"Davidson County, North Carolina","3":"B01003_001","4":"166837","5":"NA","6":"<s_MULTIP>"},{"1":"37135","2":"Orange County, North Carolina","3":"B01003_001","4":"146354","5":"NA","6":"<s_MULTIP>"},{"1":"37105","2":"Lee County, North Carolina","3":"B01003_001","4":"61083","5":"NA","6":"<s_MULTIP>"},{"1":"37073","2":"Gates County, North Carolina","3":"B01003_001","4":"11519","5":"NA","6":"<s_MULTIP>"},{"1":"37157","2":"Rockingham County, North Carolina","3":"B01003_001","4":"91051","5":"NA","6":"<s_MULTIP>"},{"1":"37145","2":"Person County, North Carolina","3":"B01003_001","4":"39561","5":"NA","6":"<s_MULTIP>"},{"1":"37151","2":"Randolph County, North Carolina","3":"B01003_001","4":"143460","5":"NA","6":"<s_MULTIP>"},{"1":"37181","2":"Vance County, North Carolina","3":"B01003_001","4":"44614","5":"NA","6":"<s_MULTIP>"},{"1":"37187","2":"Washington County, North Carolina","3":"B01003_001","4":"11788","5":"NA","6":"<s_MULTIP>"},{"1":"37011","2":"Avery County, North Carolina","3":"B01003_001","4":"17510","5":"NA","6":"<s_MULTIP>"},{"1":"37081","2":"Guilford County, North Carolina","3":"B01003_001","4":"532956","5":"NA","6":"<s_MULTIP>"},{"1":"37109","2":"Lincoln County, North Carolina","3":"B01003_001","4":"84580","5":"NA","6":"<s_MULTIP>"},{"1":"37025","2":"Cabarrus County, North Carolina","3":"B01003_001","4":"211605","5":"NA","6":"<s_MULTIP>"},{"1":"37191","2":"Wayne County, North Carolina","3":"B01003_001","4":"123785","5":"NA","6":"<s_MULTIP>"},{"1":"37189","2":"Watauga County, North Carolina","3":"B01003_001","4":"55669","5":"NA","6":"<s_MULTIP>"},{"1":"37097","2":"Iredell County, North Carolina","3":"B01003_001","4":"178853","5":"NA","6":"<s_MULTIP>"},{"1":"37001","2":"Alamance County, North Carolina","3":"B01003_001","4":"166144","5":"NA","6":"<s_MULTIP>"},{"1":"37015","2":"Bertie County, North Carolina","3":"B01003_001","4":"19081","5":"NA","6":"<s_MULTIP>"},{"1":"37063","2":"Durham County, North Carolina","3":"B01003_001","4":"317665","5":"NA","6":"<s_MULTIP>"},{"1":"37197","2":"Yadkin County, North Carolina","3":"B01003_001","4":"37589","5":"NA","6":"<s_MULTIP>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="clean-normalize-wrangle" class="level2">
+<h2 class="anchored" data-anchor-id="clean-normalize-wrangle">Clean / Normalize / Wrangle</h2>
+<p>a first look.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nc_pop <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(name, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"county"</span>, <span class="st">"state"</span>), <span class="at">sep =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="fu">str_remove</span>(county, <span class="st">" County"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">population =</span> estimate) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["geoid"],"name":[1],"type":["chr"],"align":["left"]},{"label":["county"],"name":[2],"type":["chr"],"align":["left"]},{"label":["state"],"name":[3],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[4],"type":["chr"],"align":["left"]},{"label":["population"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["moe"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"37039","2":"Cherokee","3":"North Carolina","4":"B01003_001","5":"28413","6":"NA"},{"1":"37089","2":"Henderson","3":"North Carolina","4":"B01003_001","5":"116298","6":"NA"},{"1":"37171","2":"Surry","3":"North Carolina","4":"B01003_001","5":"71904","6":"NA"},{"1":"37131","2":"Northampton","3":"North Carolina","4":"B01003_001","5":"19672","6":"NA"},{"1":"37177","2":"Tyrrell","3":"North Carolina","4":"B01003_001","5":"3978","6":"NA"},{"1":"37043","2":"Clay","3":"North Carolina","4":"B01003_001","5":"11150","6":"NA"},{"1":"37075","2":"Graham","3":"North Carolina","4":"B01003_001","5":"8501","6":"NA"},{"1":"37031","2":"Carteret","3":"North Carolina","4":"B01003_001","5":"69301","6":"NA"},{"1":"37007","2":"Anson","3":"North Carolina","4":"B01003_001","5":"24430","6":"NA"},{"1":"37183","2":"Wake","3":"North Carolina","4":"B01003_001","5":"1091662","6":"48"},{"1":"37083","2":"Halifax","3":"North Carolina","4":"B01003_001","5":"50678","6":"NA"},{"1":"37125","2":"Moore","3":"North Carolina","4":"B01003_001","5":"99263","6":"NA"},{"1":"37065","2":"Edgecombe","3":"North Carolina","4":"B01003_001","5":"52069","6":"NA"},{"1":"37107","2":"Lenoir","3":"North Carolina","4":"B01003_001","5":"56350","6":"NA"},{"1":"37193","2":"Wilkes","3":"North Carolina","4":"B01003_001","5":"68341","6":"48"},{"1":"37069","2":"Franklin","3":"North Carolina","4":"B01003_001","5":"68027","6":"NA"},{"1":"37117","2":"Martin","3":"North Carolina","4":"B01003_001","5":"22644","6":"NA"},{"1":"37137","2":"Pamlico","3":"North Carolina","4":"B01003_001","5":"12673","6":"NA"},{"1":"37149","2":"Polk","3":"North Carolina","4":"B01003_001","5":"20682","6":"NA"},{"1":"37175","2":"Transylvania","3":"North Carolina","4":"B01003_001","5":"34039","6":"NA"},{"1":"37143","2":"Perquimans","3":"North Carolina","4":"B01003_001","5":"13513","6":"NA"},{"1":"37047","2":"Columbus","3":"North Carolina","4":"B01003_001","5":"55659","6":"NA"},{"1":"37161","2":"Rutherford","3":"North Carolina","4":"B01003_001","5":"66741","6":"NA"},{"1":"37155","2":"Robeson","3":"North Carolina","4":"B01003_001","5":"131656","6":"NA"},{"1":"37133","2":"Onslow","3":"North Carolina","4":"B01003_001","5":"198377","6":"NA"},{"1":"37113","2":"Macon","3":"North Carolina","4":"B01003_001","5":"35172","6":"NA"},{"1":"37091","2":"Hertford","3":"North Carolina","4":"B01003_001","5":"23752","6":"NA"},{"1":"37127","2":"Nash","3":"North Carolina","4":"B01003_001","5":"94287","6":"NA"},{"1":"37101","2":"Johnston","3":"North Carolina","4":"B01003_001","5":"203308","6":"NA"},{"1":"37111","2":"McDowell","3":"North Carolina","4":"B01003_001","5":"45402","6":"NA"},{"1":"37021","2":"Buncombe","3":"North Carolina","4":"B01003_001","5":"259576","6":"NA"},{"1":"37153","2":"Richmond","3":"North Carolina","4":"B01003_001","5":"44759","6":"NA"},{"1":"37027","2":"Caldwell","3":"North Carolina","4":"B01003_001","5":"82056","6":"NA"},{"1":"37067","2":"Forsyth","3":"North Carolina","4":"B01003_001","5":"378499","6":"NA"},{"1":"37093","2":"Hoke","3":"North Carolina","4":"B01003_001","5":"54590","6":"NA"},{"1":"37085","2":"Harnett","3":"North Carolina","4":"B01003_001","5":"134328","6":"48"},{"1":"37087","2":"Haywood","3":"North Carolina","4":"B01003_001","5":"61862","6":"NA"},{"1":"37123","2":"Montgomery","3":"North Carolina","4":"B01003_001","5":"27223","6":"NA"},{"1":"37103","2":"Jones","3":"North Carolina","4":"B01003_001","5":"9453","6":"NA"},{"1":"37167","2":"Stanly","3":"North Carolina","4":"B01003_001","5":"62050","6":"NA"},{"1":"37079","2":"Greene","3":"North Carolina","4":"B01003_001","5":"20987","6":"NA"},{"1":"37017","2":"Bladen","3":"North Carolina","4":"B01003_001","5":"33209","6":"NA"},{"1":"37013","2":"Beaufort","3":"North Carolina","4":"B01003_001","5":"47160","6":"NA"},{"1":"37053","2":"Currituck","3":"North Carolina","4":"B01003_001","5":"27210","6":"NA"},{"1":"37041","2":"Chowan","3":"North Carolina","4":"B01003_001","5":"13995","6":"NA"},{"1":"37019","2":"Brunswick","3":"North Carolina","4":"B01003_001","5":"137303","6":"NA"},{"1":"37009","2":"Ashe","3":"North Carolina","4":"B01003_001","5":"27009","6":"48"},{"1":"37141","2":"Pender","3":"North Carolina","4":"B01003_001","5":"61891","6":"NA"},{"1":"37051","2":"Cumberland","3":"North Carolina","4":"B01003_001","5":"334562","6":"NA"},{"1":"37163","2":"Sampson","3":"North Carolina","4":"B01003_001","5":"63284","6":"NA"},{"1":"37023","2":"Burke","3":"North Carolina","4":"B01003_001","5":"90148","6":"NA"},{"1":"37035","2":"Catawba","3":"North Carolina","4":"B01003_001","5":"158507","6":"NA"},{"1":"37037","2":"Chatham","3":"North Carolina","4":"B01003_001","5":"72853","6":"NA"},{"1":"37099","2":"Jackson","3":"North Carolina","4":"B01003_001","5":"43435","6":"NA"},{"1":"37055","2":"Dare","3":"North Carolina","4":"B01003_001","5":"36698","6":"NA"},{"1":"37179","2":"Union","3":"North Carolina","4":"B01003_001","5":"235767","6":"NA"},{"1":"37095","2":"Hyde","3":"North Carolina","4":"B01003_001","5":"5089","6":"NA"},{"1":"37029","2":"Camden","3":"North Carolina","4":"B01003_001","5":"10654","6":"NA"},{"1":"37199","2":"Yancey","3":"North Carolina","4":"B01003_001","5":"17870","6":"NA"},{"1":"37165","2":"Scotland","3":"North Carolina","4":"B01003_001","5":"34921","6":"NA"},{"1":"37139","2":"Pasquotank","3":"North Carolina","4":"B01003_001","5":"39775","6":"NA"},{"1":"37061","2":"Duplin","3":"North Carolina","4":"B01003_001","5":"58965","6":"NA"},{"1":"37173","2":"Swain","3":"North Carolina","4":"B01003_001","5":"14241","6":"NA"},{"1":"37129","2":"New Hanover","3":"North Carolina","4":"B01003_001","5":"231448","6":"NA"},{"1":"37115","2":"Madison","3":"North Carolina","4":"B01003_001","5":"21608","6":"NA"},{"1":"37159","2":"Rowan","3":"North Carolina","4":"B01003_001","5":"140978","6":"NA"},{"1":"37049","2":"Craven","3":"North Carolina","4":"B01003_001","5":"102290","6":"NA"},{"1":"37119","2":"Mecklenburg","3":"North Carolina","4":"B01003_001","5":"1095170","6":"NA"},{"1":"37071","2":"Gaston","3":"North Carolina","4":"B01003_001","5":"222119","6":"NA"},{"1":"37005","2":"Alleghany","3":"North Carolina","4":"B01003_001","5":"11085","6":"NA"},{"1":"37169","2":"Stokes","3":"North Carolina","4":"B01003_001","5":"45688","6":"NA"},{"1":"37033","2":"Caswell","3":"North Carolina","4":"B01003_001","5":"22619","6":"NA"},{"1":"37003","2":"Alexander","3":"North Carolina","4":"B01003_001","5":"37271","6":"NA"},{"1":"37121","2":"Mitchell","3":"North Carolina","4":"B01003_001","5":"14959","6":"NA"},{"1":"37077","2":"Granville","3":"North Carolina","4":"B01003_001","5":"59823","6":"NA"},{"1":"37185","2":"Warren","3":"North Carolina","4":"B01003_001","5":"19746","6":"NA"},{"1":"37045","2":"Cleveland","3":"North Carolina","4":"B01003_001","5":"97765","6":"NA"},{"1":"37059","2":"Davie","3":"North Carolina","4":"B01003_001","5":"42543","6":"NA"},{"1":"37147","2":"Pitt","3":"North Carolina","4":"B01003_001","5":"179961","6":"NA"},{"1":"37195","2":"Wilson","3":"North Carolina","4":"B01003_001","5":"81579","6":"NA"},{"1":"37057","2":"Davidson","3":"North Carolina","4":"B01003_001","5":"166837","6":"NA"},{"1":"37135","2":"Orange","3":"North Carolina","4":"B01003_001","5":"146354","6":"NA"},{"1":"37105","2":"Lee","3":"North Carolina","4":"B01003_001","5":"61083","6":"NA"},{"1":"37073","2":"Gates","3":"North Carolina","4":"B01003_001","5":"11519","6":"NA"},{"1":"37157","2":"Rockingham","3":"North Carolina","4":"B01003_001","5":"91051","6":"NA"},{"1":"37145","2":"Person","3":"North Carolina","4":"B01003_001","5":"39561","6":"NA"},{"1":"37151","2":"Randolph","3":"North Carolina","4":"B01003_001","5":"143460","6":"NA"},{"1":"37181","2":"Vance","3":"North Carolina","4":"B01003_001","5":"44614","6":"NA"},{"1":"37187","2":"Washington","3":"North Carolina","4":"B01003_001","5":"11788","6":"NA"},{"1":"37011","2":"Avery","3":"North Carolina","4":"B01003_001","5":"17510","6":"NA"},{"1":"37081","2":"Guilford","3":"North Carolina","4":"B01003_001","5":"532956","6":"NA"},{"1":"37109","2":"Lincoln","3":"North Carolina","4":"B01003_001","5":"84580","6":"NA"},{"1":"37025","2":"Cabarrus","3":"North Carolina","4":"B01003_001","5":"211605","6":"NA"},{"1":"37191","2":"Wayne","3":"North Carolina","4":"B01003_001","5":"123785","6":"NA"},{"1":"37189","2":"Watauga","3":"North Carolina","4":"B01003_001","5":"55669","6":"NA"},{"1":"37097","2":"Iredell","3":"North Carolina","4":"B01003_001","5":"178853","6":"NA"},{"1":"37001","2":"Alamance","3":"North Carolina","4":"B01003_001","5":"166144","6":"NA"},{"1":"37015","2":"Bertie","3":"North Carolina","4":"B01003_001","5":"19081","6":"NA"},{"1":"37063","2":"Durham","3":"North Carolina","4":"B01003_001","5":"317665","6":"NA"},{"1":"37197","2":"Yadkin","3":"North Carolina","4":"B01003_001","5":"37589","6":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<section id="save-cleaned-data" class="level3">
+<h3 class="anchored" data-anchor-id="save-cleaned-data">Save cleaned data</h3>
+<p>Save cleaned data</p>
+<blockquote class="blockquote">
+<p>Tip: <code>here::here()</code> will list the RStudio project directory.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">here</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "C:/Users/jrl/Documents/casestudy_reproducible_workflow_census"</code></pre>
+</div>
+</div>
+<p>Or use relative file paths</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(<span class="fu">here</span>(<span class="st">"data/cleaned"</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nc_pop <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(name, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"county"</span>, <span class="st">"state"</span>), <span class="at">sep =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county =</span> <span class="fu">str_remove</span>(county, <span class="st">" County"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">population =</span> estimate) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/cleaned/cleaned-ACS_nc-county-populations.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="analysis-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-and-visualization">Analysis and visualization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nc_pop <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_couty_pop =</span> <span class="fu">median</span>(estimate), </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_county_pop =</span> <span class="fu">mean</span>(estimate),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">min_pop =</span> <span class="fu">min</span>(estimate),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">max_pop =</span> <span class="fu">max</span>(estimate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["median_couty_pop"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["mean_county_pop"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["min_pop"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["max_pop"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"55664","2":"103862.3","3":"3978","4":"1095170"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<section id="visualization" class="level3">
+<h3 class="anchored" data-anchor-id="visualization">visualization</h3>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>my_viz <span class="ot">&lt;-</span> nc_pop <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(estimate)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> <span class="fu">fct_reorder</span>(<span class="fu">str_extract</span>(NAME, <span class="st">"^</span><span class="sc">\\</span><span class="st">w+"</span>), </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                           estimate))) <span class="sc">+</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>my_viz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="map" class="level3">
+<h3 class="anchored" data-anchor-id="map">map</h3>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nc_pop <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> estimate)) <span class="sc">+</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">datum =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"Population"</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"NC Population by County"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"USA Census ACS 2020"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="generate-independent-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="generate-independent-outputs">Generate independent outputs</h2>
+<p>By “independent” I mean manuall, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto compuation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.</p>
+<p>Above we used the {here} package to ensure we managed our files relative to the project’s root directory on the local file system. You can also use other unix-style relative path constructions such as <code>..</code> Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fs::dir_create("../output_secondary/images")</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir_create</span>(<span class="fu">here</span>(<span class="st">"output_secondary/images"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave("../output_secondary/images/top-population_scatter-plot.svg", my_viz)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">"output_secondary/images/top-population_scatter-plot.svg"</span>), my_viz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fin" class="level2">
+<h2 class="anchored" data-anchor-id="fin">Fin</h2>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Tooltip background on <a href="https://support.posit.co/hc/en-us/articles/200526207-Using-Projects">RStudio projects</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In this case, the the <a href="https://usethis.r-lib.org/">{usethis} library package</a> is helpful.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>To learn more about setting up git with R, please see the quick tips for doing using git and RStudio with the {usethis} package by visiting the <a href="https://rfun.library.duke.edu/portfolio/git_workshop/">Rfun git workshop page</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>More information can be found at the <a href="https://usethis.r-lib.org/">{usethis} package web page</a>; See <a href="https://usethis.r-lib.org/articles/git-credentials.html"><em>Managing git(Hub) credentials</em></a>. A quick guide to managing git and GitHub credentials can be found at the <a href="https://rfun.library.duke.edu/git">Rfun git quick reference page</a> and more information can be found at the <a href="https://rfun.library.duke.edu/portfolio/git_workshop/">Rfun git/GitHub workshop page</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>You can reduce the overall size of your project by being more selective regarding which tidyverse packages you use. e.g.&nbsp;Are you using only {ggplot2} and {dplyr}? You can load those only those packages, instead of loading all eight of the eight defualt tidyverse packages.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>If you want to learn more about {tidycensus}, you can see the <a href="https://walker-data.com/tidycensus/">tidycensus package website</a> and invoke the <code>library(tidycensus)</code>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

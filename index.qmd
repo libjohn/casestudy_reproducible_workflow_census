@@ -1,0 +1,158 @@
+---
+title: "Making a reproducible project"
+author: 
+  - name: John Little
+    affiliations:
+      - name: Duke University
+        department: Center for Data & Vizualization Sciences
+  - name: Sophia Lafferty-Hess
+    affiliation:
+      - name: Duke University
+        department: Center for Data & Vizualization Sciences    
+subtitle: "Chapter 6 case study"
+date: "`r Sys.Date()`"
+editor: visual
+---
+
+## Make a Quarto project
+
+This Quarto project is also a git repo with {renv} dependency management. i.e. ***reproducibility!***
+
+You can and, generally, should set up your [Posit/Quart project](https://quarto.org/docs/projects/quarto-projects.html)[^1] as a *git* repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled and [renv](https://rstudio.github.io/renv/articles/renv.html)-enabled [Quarto Project](https://quarto.org/docs/projects/quarto-projects.html#creating-projects).[^2][^3]
+
+[^1]: Tooltip background on [RStudio projects](https://support.posit.co/hc/en-us/articles/200526207-Using-Projects)
+
+[^2]: In this case, the the [{usethis} library package](https://usethis.r-lib.org/) is helpful.
+
+[^3]: To learn more about setting up git with R, please see the quick tips for doing using git and RStudio with the {usethis} package by visiting the [Rfun git workshop page](https://rfun.library.duke.edu/portfolio/git_workshop/).
+
+We will use Posit/RStudio's native ability to orchestrate git and GitHub. You should create a free GitHub account and configure your RStudio with your GitHub Personal Access Token.[^4]
+
+[^4]: More information can be found at the [{usethis} package web page](https://usethis.r-lib.org/); See [*Managing git(Hub) credentials*](https://usethis.r-lib.org/articles/git-credentials.html). A quick guide to managing git and GitHub credentials can be found at the [Rfun git quick reference page](https://rfun.library.duke.edu/git) and more information can be found at the [Rfun git/GitHub workshop page](https://rfun.library.duke.edu/portfolio/git_workshop/).
+
+## Load library packages
+
+As a general rule for our project we will load eight Tidyverse packages by invoking the following command: `library(tidyverse)`.[^5]
+
+[^5]: You can reduce the overall size of your project by being more selective regarding which tidyverse packages you use. e.g. Are you using only {ggplot2} and {dplyr}? You can load those only those packages, instead of loading all eight of the eight defualt tidyverse packages.
+
+This project will import census data in the second code-chunk. The [Census ACS data](https://www.census.gov/programs-surveys/acs/) were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.[^6]
+
+[^6]: If you want to learn more about {tidycensus}, you can see the [tidycensus package website](https://walker-data.com/tidycensus/) and invoke the `library(tidycensus)`.
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+library(tidyverse)
+library(janitor)
+library(fs)
+library(here)
+# library(renv)
+library(sf)
+```
+
+## Gather data
+
+```{r}
+nc_pop <- sf::read_sf(here("data/raw/ACS_nc-county_shapefile.shp"))
+nc_pop 
+```
+
+## Clean / Normalize / Wrangle
+
+a first look.
+
+```{r}
+nc_pop |>
+  sf::st_drop_geometry() |> 
+  janitor::clean_names() |>
+  separate(name, into = c("county", "state"), sep = ",") |>
+  mutate(county = str_remove(county, " County")) |>
+  rename(population = estimate) 
+```
+
+### Save cleaned data
+
+Save cleaned data
+
+> Tip: `here::here()` will list the RStudio project directory.
+
+```{r}
+library(here)
+
+here()
+```
+
+Or use relative file paths
+
+```{r}
+fs::dir_create(here("data/cleaned"))
+
+nc_pop |>
+  sf::st_drop_geometry() |> 
+  janitor::clean_names() |>
+  separate(name, into = c("county", "state"), sep = ",") |>
+  mutate(county = str_remove(county, " County")) |>
+  rename(population = estimate) |>
+  write_csv(file = here("data/cleaned/cleaned-ACS_nc-county-populations.csv"))
+```
+
+## Analysis and visualization
+
+```{r}
+nc_pop |>
+  sf::st_drop_geometry() |>
+  summarise(median_couty_pop = median(estimate), 
+            mean_county_pop = mean(estimate),
+            min_pop = min(estimate),
+            max_pop = max(estimate))
+```
+
+### visualization
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+my_viz <- nc_pop %>% 
+  arrange(desc(estimate)) |> 
+  slice(1:13) |>
+  ggplot(aes(x = estimate, y = fct_reorder(str_extract(NAME, "^\\w+"), 
+                                           estimate))) + 
+  geom_point() +
+  scale_x_continuous(labels = scales::comma)
+my_viz
+```
+
+### map
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+nc_pop |> 
+  ggplot(aes(fill = estimate)) + 
+  geom_sf() +
+  coord_sf(datum = NA) +
+  theme_minimal() +
+  labs(fill = "Population", 
+       title = "NC Population by County",
+       caption = "USA Census ACS 2020")
+```
+
+## Generate independent outputs
+
+By "independent" I mean manuall, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto compuation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.
+
+Above we used the {here} package to ensure we managed our files relative to the project's root directory on the local file system. You can also use other unix-style relative path constructions such as `..` Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+# fs::dir_create("../output_secondary/images")
+dir_create(here("output_secondary/images"))
+# ggsave("../output_secondary/images/top-population_scatter-plot.svg", my_viz)
+ggsave(here("output_secondary/images/top-population_scatter-plot.svg"), my_viz)
+```
+
+## Fin

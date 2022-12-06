@@ -1,0 +1,8 @@
+---
+title: "Types of documentation"
+---
+
+-   Code book
+-   Protocols
+-   Data dictionaries
+-   Appendicies

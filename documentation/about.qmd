@@ -1,0 +1,5 @@
+---
+title: "About"
+---
+
+This site is a prototype demonstrating reproducible quarto notebooks published to the web
