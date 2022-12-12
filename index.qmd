@@ -48,7 +48,8 @@ library(tidyverse)
 library(janitor)
 library(fs)
 library(here)
-# library(renv)
+library(renv)
+library(svglite)
 library(sf)
 ```
 

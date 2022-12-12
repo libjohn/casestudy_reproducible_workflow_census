@@ -25,7 +25,7 @@
     "href": "index.html#load-library-packages",
     "title": "Making a reproducible project",
     "section": "Load library packages",
-    "text": "Load library packages\nAs a general rule for our project we will load eight Tidyverse packages by invoking the following command: library(tidyverse).5\nThis project will import census data in the second code-chunk. The Census ACS data were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.6\n\nlibrary(tidyverse)\nlibrary(janitor)\nlibrary(fs)\nlibrary(here)\n# library(renv)\nlibrary(sf)"
+    "text": "Load library packages\nAs a general rule for our project we will load eight Tidyverse packages by invoking the following command: library(tidyverse).5\nThis project will import census data in the second code-chunk. The Census ACS data were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.6\n\nlibrary(tidyverse)\nlibrary(janitor)\nlibrary(fs)\nlibrary(here)\nlibrary(renv)\nlibrary(svglite)\nlibrary(sf)"
   },
   {
     "objectID": "index.html#gather-data",
