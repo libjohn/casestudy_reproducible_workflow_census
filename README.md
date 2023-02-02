@@ -6,7 +6,7 @@ John Little
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 The following is an example of a reproducible Quarto project using the R
-language to download.
+language.
 
 This project generates a choropleth map of North Carolina counties from
 USA Census ACS population data for the year 2020.
@@ -23,12 +23,12 @@ Quarto, set up a Quarto website project ( \_qyarto.yml -
 ## Code, analysis, and publishing notes
 
 - The main analysis script `index.qmd` is in the main project directory.
-  Other scripts are in the `scripts` subdirectory and serve only as
-  example scripts/documents demonstrating the flexibility of Quarto.org
-  when used to render a project report
+  The other scripts, in the `scripts` subdirectory, serve only as
+  demonstrations of the flexibility of Quarto.org when used to render a
+  project reports
 
-- The data processed in this project are found in `data/raw`; then
-  cleaned in `index.qmd` and re-saved in `data/cleaned`
+- The data processed in this analysis are found in `data/raw`, then
+  cleaned in `index.qmd`, and re-saved in `data/cleaned`
 
   - Source data for the project is original to the US Census Bureau. The
     data download procedure was performed via the
@@ -41,8 +41,7 @@ Quarto, set up a Quarto website project ( \_qyarto.yml -
 
   - the `_quarto.yaml` manages the report expression. Since the project
     is written with reproducible code. The expression can be rendered
-    into alternative formats by changing the project type to an
-    alternate format, such as a book. (See Quarto.org)
+    into alternative formats by changing the project type
 
 - To rebuild the quarto website. Open the code in the RStudio IDE \>
   Build \> Render Project
