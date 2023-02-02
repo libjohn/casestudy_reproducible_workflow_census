@@ -1,5 +1,18 @@
 project:
   type: website
+  
+author: 
+  - name: John R Little
+    affiliations:
+      - name: Duke University
+      - department: Center for Data & Vizualization Sciences
+  - name: Sophia Lafferty-Hess
+    affiliation:
+      - name: Duke University
+        department: Center for Data & Vizualization Sciences   
+      
+date: 'today'
+date-format: long
 
 website:
   title: "Reproducible workflow: casestudy"
@@ -11,7 +24,11 @@ website:
         text: Page 2
       - href: documentation/types_of_documentation.qmd
         text: Documentation
-      - documentation/about.qmd        
+      - documentation/about.qmd  
+    right:
+      - icon: github
+        href: https://github.com/libjohn/casestudy_reproducible_workflow_census
+        aria-label: GitHub
         
 
 format:
@@ -21,5 +38,6 @@ format:
     toc: true
     df-print: paged
 
+license: CC BY  
 editor: visual
 

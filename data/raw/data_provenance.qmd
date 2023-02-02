@@ -1,0 +1,83 @@
+---
+title: "Get ACS Census data"
+author: "John Little"
+date: today
+format: html
+editor: visual
+---
+
+## Load library packages
+
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+library(tidyverse)
+library(tidycensus)
+```
+
+### More information about packages
+
+-   [{tidycensus}](https://walker-data.com/tidycensus/index.html)
+-   [*Analyzing US Census Data: Methods, Maps, and Models in R* by Kyle Walker](https://walker-data.com/census-r)
+-   [{tidyverse}](https://tidyverse.org)
+
+## Get variable names for 2020 ACS census
+
+```{r}
+#| eval: false
+my_vars <- tidycensus::load_variables(2020, "acs5")
+```
+
+## Filter codebook
+
+The ACS data element is Total population. B01003_001
+
+```{r}
+#| eval: false
+my_vars |> 
+  filter(name == "B01003_001")
+```
+
+## Get data
+
+The data were downloaded via the {tidycensus} package, using the `get_acs()` function. Limiting the data to ACS data for the year 2020, further limited to *county* census geography for the state of *North Carolina*. By setting the argument `geometry` to *TRUE*, we download Census Tigerline data in the shapefile format.
+
+### More information
+
+ACS - American Community Surveys - [American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs/)
+
+TIGER/Line shapefiles - [TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) - [TIGER/Line Files Technical Documentation](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/tiger-geo-line.html)
+
+```{r}
+#| eval: false
+my_data_and_shapes <- 
+  tidycensus::get_acs("county", 
+                      variables = "B01003_001",
+                      year = 2020,
+                      state = "NC", 
+                      geometry = TRUE)
+```
+
+## Preview data
+
+```{r}
+#| eval: false
+my_data_and_shapes |> 
+  as_tibble() 
+```
+
+```{r}
+#| eval: false
+sf::st_write(my_data_and_shapes, "ACS_nc-county_shapefile.shp")
+```
+
+## Codebook
+
+-   *variable* - ACS census variable
+
+-   estimate - ACS census variable estimate
+
+-   moe - ACS census variable margin of error
+
+-   geometry - Census TIGER/Line shapefile

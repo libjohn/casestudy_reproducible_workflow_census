@@ -8,7 +8,7 @@
 
 <meta name="author" content="John Little">
 <meta name="author" content="Sophia Lafferty-Hess">
-<meta name="dcterms.date" content="2022-12-12">
+<meta name="dcterms.date" content="2023-02-02">
 
 <title>Reproducible workflow: casestudy - Making a reproducible project</title>
 <style>
@@ -161,6 +161,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="nav-link" href="./documentation/about.html">About</a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/libjohn/casestudy_reproducible_workflow_census"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ </a>
+  </li>  
+</ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -230,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 12, 2022</p>
+      <p class="date">February 2, 2023</p>
     </div>
   </div>
     
@@ -380,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="generate-independent-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="generate-independent-outputs">Generate independent outputs</h2>
-<p>By “independent” I mean manuall, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto compuation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.</p>
-<p>Above we used the {here} package to ensure we managed our files relative to the project’s root directory on the local file system. You can also use other unix-style relative path constructions such as <code>..</code> Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.</p>
+<p>By “independent” I mean manual, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto computation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.</p>
+<p>Above we used the {here} package to ensure we managed our files relative to the project’s root directory on the local file system. You can also use other UNIX-style relative path constructions such as <code>..</code> Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fs::dir_create("../output_secondary/images")</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir_create</span>(<span class="fu">here</span>(<span class="st">"output_secondary/images"</span>))</span>
@@ -406,7 +413,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li id="fn5"><p>You can reduce the overall size of your project by being more selective regarding which tidyverse packages you use. e.g.&nbsp;Are you using only {ggplot2} and {dplyr}? You can load those only those packages, instead of loading all eight of the eight defualt tidyverse packages.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>If you want to learn more about {tidycensus}, you can see the <a href="https://walker-data.com/tidycensus/">tidycensus package website</a> and invoke the <code>library(tidycensus)</code>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section></div></main> <!-- /main -->
+</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

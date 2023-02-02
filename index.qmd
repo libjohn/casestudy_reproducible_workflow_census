@@ -10,7 +10,7 @@ author:
       - name: Duke University
         department: Center for Data & Vizualization Sciences    
 subtitle: "Chapter 6 case study"
-date: "`r Sys.Date()`"
+# date: "`r Sys.Date()`"
 editor: visual
 ---
 
@@ -142,9 +142,9 @@ nc_pop |>
 
 ## Generate independent outputs
 
-By "independent" I mean manuall, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto compuation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.
+By "independent" I mean manual, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto computation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.
 
-Above we used the {here} package to ensure we managed our files relative to the project's root directory on the local file system. You can also use other unix-style relative path constructions such as `..` Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.
+Above we used the {here} package to ensure we managed our files relative to the project's root directory on the local file system. You can also use other UNIX-style relative path constructions such as `..` Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.
 
 ```{r}
 #| echo: true
