@@ -1,7 +1,7 @@
 README
 ================
 John Little
-2/2/23
+3/10/23
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -9,7 +9,7 @@ The following is an example of a reproducible Quarto project using the R
 language.
 
 This project generates a choropleth map of North Carolina counties from
-USA Census ACS population data for the year 2020.
+USA Census ACS population data for the year 2020. [^1]
 
 ### case_study_quarto_default_tier_protocol_applied
 
@@ -54,3 +54,9 @@ Quarto, set up a Quarto website project ( \_qyarto.yml -
 
 - Code dependencies (i.e. R versions and library packages) are managed
   with the [{renv} package](https://rstudio.github.io/renv)
+
+[^1]: United States Census. (2020). American Community Survey: Tigerline
+    data. Retrieved programmatically via
+    <https://walker-data.com/tidycensus/index.html> package. Full
+    dataset available at:
+    <https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2020.html>
