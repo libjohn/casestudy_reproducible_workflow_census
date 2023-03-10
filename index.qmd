@@ -150,8 +150,10 @@ Above we used the {here} package to ensure we managed our files relative to the 
 #| echo: true
 #| warning: false
 #| message: false
+
 # fs::dir_create("../output_secondary/images")
 dir_create(here("output_secondary/images"))
+
 # ggsave("../output_secondary/images/top-population_scatter-plot.svg", my_viz)
 ggsave(here("output_secondary/images/top-population_scatter-plot.svg"), my_viz)
 ```

@@ -2,44 +2,9 @@
   {
     "objectID": "data/raw/data_provenance.html",
     "href": "data/raw/data_provenance.html",
-    "title": "Get ACS Census data",
+    "title": "Reproducible workflow: casestudy",
     "section": "",
-    "text": "library(tidyverse)\nlibrary(tidycensus)\n\n\n\n\n{tidycensus}\nAnalyzing US Census Data: Methods, Maps, and Models in R by Kyle Walker\n{tidyverse}"
-  },
-  {
-    "objectID": "data/raw/data_provenance.html#get-variable-names-for-2020-acs-census",
-    "href": "data/raw/data_provenance.html#get-variable-names-for-2020-acs-census",
-    "title": "Get ACS Census data",
-    "section": "Get variable names for 2020 ACS census",
-    "text": "Get variable names for 2020 ACS census\n\nmy_vars <- tidycensus::load_variables(2020, \"acs5\")"
-  },
-  {
-    "objectID": "data/raw/data_provenance.html#filter-codebook",
-    "href": "data/raw/data_provenance.html#filter-codebook",
-    "title": "Get ACS Census data",
-    "section": "Filter codebook",
-    "text": "Filter codebook\nThe ACS data element is Total population. B01003_001\n\nmy_vars |> \n  filter(name == \"B01003_001\")"
-  },
-  {
-    "objectID": "data/raw/data_provenance.html#get-data",
-    "href": "data/raw/data_provenance.html#get-data",
-    "title": "Get ACS Census data",
-    "section": "Get data",
-    "text": "Get data\nThe data were downloaded via the {tidycensus} package, using the get_acs() function. Limiting the data to ACS data for the year 2020, further limited to county census geography for the state of North Carolina. By setting the argument geometry to TRUE, we download Census Tigerline data in the shapefile format.\n\nMore information\nACS - American Community Surveys - American Community Survey (ACS)\nTIGER/Line shapefiles - TIGER/Line Shapefiles - TIGER/Line Files Technical Documentation\n\nmy_data_and_shapes <- \n  tidycensus::get_acs(\"county\", \n                      variables = \"B01003_001\",\n                      year = 2020,\n                      state = \"NC\", \n                      geometry = TRUE)"
-  },
-  {
-    "objectID": "data/raw/data_provenance.html#preview-data",
-    "href": "data/raw/data_provenance.html#preview-data",
-    "title": "Get ACS Census data",
-    "section": "Preview data",
-    "text": "Preview data\n\nmy_data_and_shapes |> \n  as_tibble() \n\n\nsf::st_write(my_data_and_shapes, \"ACS_nc-county_shapefile.shp\")"
-  },
-  {
-    "objectID": "data/raw/data_provenance.html#codebook",
-    "href": "data/raw/data_provenance.html#codebook",
-    "title": "Get ACS Census data",
-    "section": "Codebook",
-    "text": "Codebook\n\nvariable - ACS census variable\nestimate - ACS census variable estimate\nmoe - ACS census variable margin of error\ngeometry - Census TIGER/Line shapefile"
+    "text": "Reusehttps://creativecommons.org/licenses/by/4.0/"
   },
   {
     "objectID": "documentation/about.html",
@@ -53,7 +18,56 @@
     "href": "documentation/types_of_documentation.html",
     "title": "Types of documentation",
     "section": "",
-    "text": "Reusehttps://creativecommons.org/licenses/by/4.0/"
+    "text": "The following section include data provenance, data dictionary and data gathering protocol."
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#load-library-packages",
+    "href": "documentation/types_of_documentation.html#load-library-packages",
+    "title": "Types of documentation",
+    "section": "Load library packages",
+    "text": "Load library packages\n\nlibrary(tidyverse)\nlibrary(tidycensus)\n\n\nMore information about packages\n\n{tidycensus}\nAnalyzing US Census Data: Methods, Maps, and Models in R by Kyle Walker\n{tidyverse}"
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#get-variable-names-for-2020-acs-census",
+    "href": "documentation/types_of_documentation.html#get-variable-names-for-2020-acs-census",
+    "title": "Types of documentation",
+    "section": "Get variable names for 2020 ACS census",
+    "text": "Get variable names for 2020 ACS census\n\nmy_vars <- tidycensus::load_variables(2020, \"acs5\")"
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#filter-code-book",
+    "href": "documentation/types_of_documentation.html#filter-code-book",
+    "title": "Types of documentation",
+    "section": "Filter code book",
+    "text": "Filter code book\nThe ACS data element is Total population. B01003_001\n\nmy_vars |> \n  filter(name == \"B01003_001\")"
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#get-data",
+    "href": "documentation/types_of_documentation.html#get-data",
+    "title": "Types of documentation",
+    "section": "Get data",
+    "text": "Get data\nThe data were downloaded via the {tidycensus} package, using the get_acs() function. Limiting the data to ACS data for the year 2020, further limited to county census geography for the state of North Carolina. By setting the argument geometry to TRUE, we download Census Tigerline data in the shapefile format.\n\nMore information\nACS - American Community Surveys - American Community Survey (ACS)\nTIGER/Line shapefiles - TIGER/Line Shapefiles - TIGER/Line Files Technical Documentation\n\nmy_data_and_shapes <- \n  tidycensus::get_acs(\"county\", \n                      variables = \"B01003_001\",\n                      year = 2020,\n                      state = \"NC\", \n                      geometry = TRUE)"
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#preview-data",
+    "href": "documentation/types_of_documentation.html#preview-data",
+    "title": "Types of documentation",
+    "section": "Preview data",
+    "text": "Preview data\n\nmy_data_and_shapes |> \n  as_tibble()"
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#save-data",
+    "href": "documentation/types_of_documentation.html#save-data",
+    "title": "Types of documentation",
+    "section": "Save data",
+    "text": "Save data\n\nsf::st_write(my_data_and_shapes, \"data/raw/ACS_nc-county_shapefile.shp\")"
+  },
+  {
+    "objectID": "documentation/types_of_documentation.html#data-dictionary",
+    "href": "documentation/types_of_documentation.html#data-dictionary",
+    "title": "Types of documentation",
+    "section": "Data Dictionary",
+    "text": "Data Dictionary\n\nvariable - ACS census variable\nestimate - ACS census variable estimate\nmoe - ACS census variable margin of error\ngeometry - Census TIGER/Line shapefile"
   },
   {
     "objectID": "index.html",
@@ -95,7 +109,7 @@
     "href": "index.html#generate-independent-outputs",
     "title": "Making a reproducible project",
     "section": "Generate independent outputs",
-    "text": "Generate independent outputs\nBy “independent” I mean manual, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto computation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.\nAbove we used the {here} package to ensure we managed our files relative to the project’s root directory on the local file system. You can also use other UNIX-style relative path constructions such as .. Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.\n\n# fs::dir_create(\"../output_secondary/images\")\ndir_create(here(\"output_secondary/images\"))\n# ggsave(\"../output_secondary/images/top-population_scatter-plot.svg\", my_viz)\nggsave(here(\"output_secondary/images/top-population_scatter-plot.svg\"), my_viz)"
+    "text": "Generate independent outputs\nBy “independent” I mean manual, via code, saving outputs to the local file system. This process is not strictly necessary since the quarto computation notebook includes generated visualizations in the derived reports. But, sometimes we like a belt and suspenders.\nAbove we used the {here} package to ensure we managed our files relative to the project’s root directory on the local file system. You can also use other UNIX-style relative path constructions such as .. Using relative file paths in this way accomplishes the same action as {here}. I have included comments using {here} below.\n\n# fs::dir_create(\"../output_secondary/images\")\ndir_create(here(\"output_secondary/images\"))\n\n# ggsave(\"../output_secondary/images/top-population_scatter-plot.svg\", my_viz)\nggsave(here(\"output_secondary/images/top-population_scatter-plot.svg\"), my_viz)"
   },
   {
     "objectID": "index.html#fin",

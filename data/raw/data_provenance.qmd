@@ -1,10 +1,8 @@
 ---
-title: "Get ACS Census data"
 author: "John Little"
-date: today
-format: html
-editor: visual
 ---
+
+# Get ACS Census data
 
 ## Load library packages
 
@@ -29,9 +27,9 @@ library(tidycensus)
 my_vars <- tidycensus::load_variables(2020, "acs5")
 ```
 
-## Filter codebook
+## Filter code book
 
-The ACS data element is Total population. B01003_001
+The ACS data element is Total population. `B01003_001`
 
 ```{r}
 #| eval: false
@@ -67,17 +65,19 @@ my_data_and_shapes |>
   as_tibble() 
 ```
 
+## Save data
+
 ```{r}
 #| eval: false
-sf::st_write(my_data_and_shapes, "ACS_nc-county_shapefile.shp")
+sf::st_write(my_data_and_shapes, "data/raw/ACS_nc-county_shapefile.shp")
 ```
 
-## Codebook
+## Data Dictionary
 
 -   *variable* - ACS census variable
 
--   estimate - ACS census variable estimate
+-   *estimate* - ACS census variable estimate
 
--   moe - ACS census variable margin of error
+-   *moe* - ACS census variable margin of error
 
--   geometry - Census TIGER/Line shapefile
+-   *geometry* - Census TIGER/Line shapefile

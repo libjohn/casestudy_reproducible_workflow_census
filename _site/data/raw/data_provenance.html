@@ -9,7 +9,7 @@
 <meta name="author" content="John Little">
 <meta name="dcterms.date" content="2023-03-10">
 
-<title>Reproducible workflow: casestudy - Get ACS Census data</title>
+<title>Reproducible workflow: casestudy – data_provenance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,52 +181,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-library-packages" id="toc-load-library-packages" class="nav-link active" data-scroll-target="#load-library-packages">Load library packages</a>
+  <li><a href="#get-acs-census-data" id="toc-get-acs-census-data" class="nav-link active" data-scroll-target="#get-acs-census-data">Get ACS Census data</a>
+  <ul class="collapse">
+  <li><a href="#load-library-packages" id="toc-load-library-packages" class="nav-link" data-scroll-target="#load-library-packages">Load library packages</a>
   <ul class="collapse">
   <li><a href="#more-information-about-packages" id="toc-more-information-about-packages" class="nav-link" data-scroll-target="#more-information-about-packages">More information about packages</a></li>
   </ul></li>
   <li><a href="#get-variable-names-for-2020-acs-census" id="toc-get-variable-names-for-2020-acs-census" class="nav-link" data-scroll-target="#get-variable-names-for-2020-acs-census">Get variable names for 2020 ACS census</a></li>
-  <li><a href="#filter-codebook" id="toc-filter-codebook" class="nav-link" data-scroll-target="#filter-codebook">Filter codebook</a></li>
+  <li><a href="#filter-code-book" id="toc-filter-code-book" class="nav-link" data-scroll-target="#filter-code-book">Filter code book</a></li>
   <li><a href="#get-data" id="toc-get-data" class="nav-link" data-scroll-target="#get-data">Get data</a>
   <ul class="collapse">
   <li><a href="#more-information" id="toc-more-information" class="nav-link" data-scroll-target="#more-information">More information</a></li>
   </ul></li>
   <li><a href="#preview-data" id="toc-preview-data" class="nav-link" data-scroll-target="#preview-data">Preview data</a></li>
-  <li><a href="#codebook" id="toc-codebook" class="nav-link" data-scroll-target="#codebook">Codebook</a></li>
+  <li><a href="#save-data" id="toc-save-data" class="nav-link" data-scroll-target="#save-data">Save data</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data Dictionary</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Get ACS Census data</h1>
-</div>
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>John Little </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 10, 2023</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-</header>
-
+<section id="get-acs-census-data" class="level1">
+<h1>Get ACS Census data</h1>
 <section id="load-library-packages" class="level2">
 <h2 class="anchored" data-anchor-id="load-library-packages">Load library packages</h2>
 <div class="cell">
@@ -248,9 +228,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>my_vars <span class="ot">&lt;-</span> tidycensus<span class="sc">::</span><span class="fu">load_variables</span>(<span class="dv">2020</span>, <span class="st">"acs5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="filter-codebook" class="level2">
-<h2 class="anchored" data-anchor-id="filter-codebook">Filter codebook</h2>
-<p>The ACS data element is Total population. B01003_001</p>
+<section id="filter-code-book" class="level2">
+<h2 class="anchored" data-anchor-id="filter-code-book">Filter code book</h2>
+<p>The ACS data element is Total population. <code>B01003_001</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_vars <span class="sc">|&gt;</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"B01003_001"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -279,20 +259,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_data_and_shapes <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="save-data" class="level2">
+<h2 class="anchored" data-anchor-id="save-data">Save data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">st_write</span>(my_data_and_shapes, <span class="st">"ACS_nc-county_shapefile.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">st_write</span>(my_data_and_shapes, <span class="st">"data/raw/ACS_nc-county_shapefile.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="codebook" class="level2">
-<h2 class="anchored" data-anchor-id="codebook">Codebook</h2>
+<section id="data-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="data-dictionary">Data Dictionary</h2>
 <ul>
 <li><p><em>variable</em> - ACS census variable</p></li>
-<li><p>estimate - ACS census variable estimate</p></li>
-<li><p>moe - ACS census variable margin of error</p></li>
-<li><p>geometry - Census TIGER/Line shapefile</p></li>
+<li><p><em>estimate</em> - ACS census variable estimate</p></li>
+<li><p><em>moe</em> - ACS census variable margin of error</p></li>
+<li><p><em>geometry</em> - Census TIGER/Line shapefile</p></li>
 </ul>
 
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section></div></main> <!-- /main -->
