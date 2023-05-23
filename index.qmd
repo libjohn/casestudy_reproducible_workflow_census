@@ -18,7 +18,7 @@ editor: visual
 
 This Quarto project is also a git repo with {renv} dependency management. i.e. ***reproducibility!***
 
-You can and, generally, should set up your [Posit/Quart project](https://quarto.org/docs/projects/quarto-projects.html)[^1] as a *git* repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled and [renv](https://rstudio.github.io/renv/articles/renv.html)-enabled [Quarto Project](https://quarto.org/docs/projects/quarto-projects.html#creating-projects).[^2][^3]
+You can and, generally, should set up your [Posit/Quart project](https://quarto.org/docs/projects/quarto-projects.html)[^1] as a *git* repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled [Quarto Project](https://quarto.org/docs/projects/quarto-projects.html#creating-projects).[^2][^3]
 
 [^1]: Tooltip background on [RStudio projects](https://support.posit.co/hc/en-us/articles/200526207-Using-Projects)
 
@@ -48,7 +48,6 @@ library(tidyverse)
 library(janitor)
 library(fs)
 library(here)
-library(renv)
 library(svglite)
 library(sf)
 ```
