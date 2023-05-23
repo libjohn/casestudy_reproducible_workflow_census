@@ -74,14 +74,14 @@
     "href": "index.html",
     "title": "Making a reproducible project",
     "section": "",
-    "text": "This Quarto project is also a git repo with {renv} dependency management. i.e. reproducibility!\nYou can and, generally, should set up your Posit/Quart project1 as a git repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled Quarto Project.23\nWe will use Posit/RStudio’s native ability to orchestrate git and GitHub. You should create a free GitHub account and configure your RStudio with your GitHub Personal Access Token.4"
+    "text": "This Quarto project is also a git repo. i.e. reproducibility!\nYou can and, generally, should set up your Posit/Quart project1 as a git repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled Quarto Project.23\nWe will use Posit/RStudio’s native ability to orchestrate git and GitHub. You should create a free GitHub account and configure your RStudio with your GitHub Personal Access Token.4"
   },
   {
     "objectID": "index.html#load-library-packages",
     "href": "index.html#load-library-packages",
     "title": "Making a reproducible project",
     "section": "Load library packages",
-    "text": "Load library packages\nAs a general rule for our project we will load eight Tidyverse packages by invoking the following command: library(tidyverse).5\nThis project will import census data in the second code-chunk. The Census ACS data were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.6\n\nlibrary(tidyverse)\nlibrary(janitor)\nlibrary(fs)\nlibrary(here)\nlibrary(svglite)\nlibrary(sf)"
+    "text": "Load library packages\nAs a general rule for our project we will load eight Tidyverse packages by invoking the followi\nThis project will import census data in the second code-chunk. The Census ACS data were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.5\n\nlibrary(tidyverse)\nlibrary(janitor)\nlibrary(fs)\nlibrary(here)\nlibrary(svglite)\nlibrary(sf)"
   },
   {
     "objectID": "index.html#gather-data",
@@ -137,6 +137,6 @@
     "href": "scripts/02_notes.html#example-visualization",
     "title": "Page 2",
     "section": "Example visualization",
-    "text": "Example visualization\n\nlibrary(tidyverse)\n\nstarwars |> \n  filter(mass < 500) |> \n  ggplot(aes(height, mass)) +\n  geom_point(aes(color = gender))"
+    "text": "Example visualization\n\nlibrary(tidyverse)  \n\nstarwars %>%    \n  filter(mass < 500) %>%    \n  ggplot(aes(height, mass)) +   \n  geom_point(aes(color = gender))"
   }
 ]
