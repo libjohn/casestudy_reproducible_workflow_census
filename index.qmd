@@ -16,7 +16,7 @@ editor: visual
 
 ## Make a Quarto project
 
-This Quarto project is also a git repo with {renv} dependency management. i.e. ***reproducibility!***
+This Quarto project is also a git repo. i.e. ***reproducibility!***
 
 You can and, generally, should set up your [Posit/Quart project](https://quarto.org/docs/projects/quarto-projects.html)[^1] as a *git* repository. Do this when you create your Quarto document. If you did not, you can retroactively configure your RStudio project as a git-enabled [Quarto Project](https://quarto.org/docs/projects/quarto-projects.html#creating-projects).[^2][^3]
 
@@ -32,13 +32,11 @@ We will use Posit/RStudio's native ability to orchestrate git and GitHub. You sh
 
 ## Load library packages
 
-As a general rule for our project we will load eight Tidyverse packages by invoking the following command: `library(tidyverse)`.[^5]
+As a general rule for our project we will load eight Tidyverse packages by invoking the followi
 
-[^5]: You can reduce the overall size of your project by being more selective regarding which tidyverse packages you use. e.g. Are you using only {ggplot2} and {dplyr}? You can load those only those packages, instead of loading all eight of the eight defualt tidyverse packages.
+This project will import census data in the second code-chunk. The [Census ACS data](https://www.census.gov/programs-surveys/acs/) were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.[^5]
 
-This project will import census data in the second code-chunk. The [Census ACS data](https://www.census.gov/programs-surveys/acs/) were initially downloaded by the workshop authors via the {tidycensus} package. For this project we will focus on managing existing census data as part of our reproducible computational workflow.[^6]
-
-[^6]: If you want to learn more about {tidycensus}, you can see the [tidycensus package website](https://walker-data.com/tidycensus/) and invoke the `library(tidycensus)`.
+[^5]: If you want to learn more about {tidycensus}, you can see the [tidycensus package website](https://walker-data.com/tidycensus/) and invoke the `library(tidycensus)`.
 
 ```{r}
 #| echo: true

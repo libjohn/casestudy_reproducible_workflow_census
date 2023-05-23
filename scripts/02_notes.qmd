@@ -8,18 +8,4 @@ This page presents as additional computational output.
 1 + 1
 ```
 
-## Example visualization
-
-```{r}
-#| echo: true
-#| message: false
-#| warning: false
-
-library(tidyverse)
-
-starwars |> 
-  filter(mass < 500) |> 
-  ggplot(aes(height, mass)) +
-  geom_point(aes(color = gender))
-
-```
+## 
