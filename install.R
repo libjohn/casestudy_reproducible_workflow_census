@@ -1,0 +1,7 @@
+install.packages("tidyverse")
+install.packages("tidycensus")
+install.packages("janitor")
+install.packages("fs")
+install.packages("here")
+install.packages("svglite")
+install.packages("sf")
