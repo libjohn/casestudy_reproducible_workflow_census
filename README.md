@@ -1,9 +1,22 @@
 README
 ================
 John Little
-3/10/23
+6/20/23
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<div>
+
+[![](https://zenodo.org/badge/DOI/10.5281/zenodo.8044810.svg)](https://doi.org/10.5281/zenodo.8044810)
+
+DOI
+
+</div>
+
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0002--3600--0972-A6CE39?logo=ORCID&logoColor=A6CE39.png "ORCID")](https://orcid.org/0000-0002-3600-0972)<br/>
+
+[![Creative Commons CC
+BY-NC](https://img.shields.io/badge/Creative%20Commons-BY--NC-EF9421?logo=creative%20commons&logoColor=EF9421.png "CC BY-NC")](https://creativecommons.org/licenses/by-nc-nd/4.0/)<br/>
 
 The following is an example of a reproducible Quarto project using the R
 language.
